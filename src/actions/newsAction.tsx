@@ -7,14 +7,16 @@ import {
 
 export const newsAction = {
   getNews,
+  setNewsLoading,
 };
 function getNews(query: string) {
+  const url =
+    query !== ''
+      ? 'everything?from=2021-04-03&to=2021-04-03&sortBy=popularity&q=' + query
+      : 'top-headlines?country=us&category=business';
   return dispatch => {
-    dispatch(setNewsLoading(true));
     newsServices
-      .getNews(
-        'everything?q=apple&from=2021-04-03&to=2021-04-03&sortBy=popularity',
-      )
+      .getNews(url)
       .then(response => {
         console.log(response.data.articles);
         dispatch(setNewsData(response.data.articles));
