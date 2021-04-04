@@ -2,12 +2,49 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import NewsScreen from '../screens/News';
+import NewsDetailScreen from '../screens/Article';
 import SettingsScreen from '../screens/Settings';
 import useThemeContext from '../services/ThemeManager/useThemeContext';
+import {createStackNavigator} from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 
 const Tab = createBottomTabNavigator();
 
+const NewsStack = createStackNavigator();
+
+function NewsStackScreen() {
+  const {theme}: any = useThemeContext();
+  return (
+    <NewsStack.Navigator>
+      <NewsStack.Screen
+        name="News"
+        component={NewsScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: Colors[theme].background,
+          },
+          headerTintColor: Colors[theme].text,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <NewsStack.Screen
+        name="News Detail"
+        component={NewsDetailScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: Colors[theme].background,
+          },
+          headerTintColor: Colors[theme].text,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+    </NewsStack.Navigator>
+  );
+}
 export default function MyTabs() {
   const {theme}: any = useThemeContext();
   return (
@@ -21,7 +58,7 @@ export default function MyTabs() {
       }}>
       <Tab.Screen
         name="News"
-        component={NewsScreen}
+        component={NewsStackScreen}
         options={{
           tabBarLabel: 'News',
           tabBarIcon: ({color, size}) => (

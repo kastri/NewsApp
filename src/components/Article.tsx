@@ -1,10 +1,15 @@
 import * as React from 'react';
 import {StyleSheet, Image, TouchableWithoutFeedback} from 'react-native';
 import {Text, View} from '../components/ThemedViews';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Article({item}) {
+  const navigation = useNavigation();
   return (
-    <TouchableWithoutFeedback onPress={() => {}}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        navigation.navigate('News Detail', {item: item});
+      }}>
       <View style={styles.articleView}>
         <Image
           style={styles.articleImage}
