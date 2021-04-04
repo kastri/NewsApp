@@ -1,15 +1,13 @@
 import React, {useEffect} from 'react';
 import {
   StyleSheet,
-  View,
-  Text,
   useColorScheme,
   ActivityIndicator,
   FlatList,
   SafeAreaView,
   Dimensions,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+
 import {newsAction} from '../actions/newsAction';
 import Article from '../components/Article';
 
@@ -17,14 +15,14 @@ import {connect} from 'react-redux';
 import {useDispatch, useSelector} from 'react-redux';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import SearchInput from '../components/SearchInput';
+import useThemeContext from '../services/ThemeManager/useThemeContext';
+import Colors from '../constants/Colors';
+import {View, Text} from '../components/ThemedViews';
 
 var searchTimeout;
 
 function NewsScreen(props) {
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const {theme}: any = useThemeContext();
   const newsReducer = useSelector(state => state.newsReducer);
 
   const dispatch = useDispatch();
@@ -32,9 +30,11 @@ function NewsScreen(props) {
     dispatch(newsAction.setNewsLoading(true));
     dispatch(newsAction.getNews('apple'));
   }, []);
+
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={[styles.container, backgroundStyle]}>
+    <SafeAreaView
+      style={[{flex: 1}, {backgroundColor: Colors[theme].background}]}>
+      <View style={[styles.container]}>
         {newsReducer.loading ? (
           <ActivityIndicator size="large" color="#e91e63" />
         ) : (
@@ -50,6 +50,7 @@ function NewsScreen(props) {
             ) : (
               <FlatList
                 style={{flex: 1}}
+                keyExtractor={item => item.url.toString()}
                 data={newsReducer.news}
                 renderItem={({item}) => {
                   return <Article item={item} />;

@@ -3,15 +3,21 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import NewsScreen from '../screens/News';
 import SettingsScreen from '../screens/Settings';
+import useThemeContext from '../services/ThemeManager/useThemeContext';
+import Colors from '../constants/Colors';
 
 const Tab = createBottomTabNavigator();
 
 export default function MyTabs() {
+  const {theme}: any = useThemeContext();
   return (
     <Tab.Navigator
       initialRouteName="Feed"
       tabBarOptions={{
-        activeTintColor: '#e91e63',
+        activeTintColor: Colors[theme].tint,
+        style: {
+          backgroundColor: Colors[theme].background,
+        },
       }}>
       <Tab.Screen
         name="News"
@@ -19,7 +25,11 @@ export default function MyTabs() {
         options={{
           tabBarLabel: 'News',
           tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+            <MaterialCommunityIcons
+              name="newspaper"
+              color={color}
+              size={size}
+            />
           ),
         }}
       />
@@ -29,7 +39,11 @@ export default function MyTabs() {
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="bell" color={color} size={size} />
+            <MaterialCommunityIcons
+              name="account-settings"
+              color={color}
+              size={size}
+            />
           ),
         }}
       />

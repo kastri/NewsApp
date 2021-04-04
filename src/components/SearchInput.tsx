@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {StyleSheet, View, TextInput, Dimensions} from 'react-native';
-
+import {StyleSheet, Dimensions} from 'react-native';
+import {TextInput} from '../components/ThemedViews';
 var searchTimeout;
 export default function SearchInput({onTextChange}) {
   const [searchArticle, setSearchArticle] = React.useState('apple');

@@ -1,11 +1,6 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import {StyleSheet, Image, TouchableWithoutFeedback} from 'react-native';
+import {Text, View} from '../components/ThemedViews';
 
 export default function Article({item}) {
   return (
