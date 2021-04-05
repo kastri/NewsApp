@@ -6,6 +6,7 @@ import {
   FlatList,
   SafeAreaView,
   Dimensions,
+  RefreshControl,
 } from 'react-native';
 
 import {newsAction} from '../actions/newsAction';
@@ -25,6 +26,13 @@ function NewsScreen(props) {
   const {theme}: any = useThemeContext();
   const newsReducer = useSelector(state => state.newsReducer);
 
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [query, setQuery] = React.useState('apple');
+
+  const onRefresh = React.useCallback(() => {
+    dispatch(newsAction.getNews(query));
+  }, []);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(newsAction.setNewsLoading(true));
@@ -41,6 +49,7 @@ function NewsScreen(props) {
           <View>
             <SearchInput
               onTextChange={text => {
+                setQuery(text);
                 dispatch(newsAction.getNews(text));
               }}
             />
@@ -55,6 +64,13 @@ function NewsScreen(props) {
                 renderItem={({item}) => {
                   return <Article item={item} />;
                 }}
+                refreshControl={
+                  <RefreshControl
+                    tintColor={Colors[theme].tint}
+                    refreshing={newsReducer.loading}
+                    onRefresh={onRefresh}
+                  />
+                }
               />
             )}
           </View>
